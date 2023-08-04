@@ -26,6 +26,24 @@ const createColorPalette = () => {
 };
 createColorPalette();
 
+const clearPixelBoard = () => {
+  const pixels = document.getElementsByClassName('pixel');
+
+  for (let index = 0; index < pixels.length; index += 1) {
+    const pixel = pixels[index];
+    pixel.style.backgroundColor = 'rgb(255, 255, 255)';
+  }
+};
+
+const createClearBtn = () => {
+  const clearBtn = document.createElement('button');
+  clearBtn.setAttribute('id', 'clear-board');
+  clearBtn.innerText = 'Limpar';
+  mainElement.appendChild(clearBtn);
+  clearBtn.addEventListener('click', clearPixelBoard);
+};
+createClearBtn();
+
 const createPixelBoard = (size) => {
   const pixelBoard = document.createElement('section');
   pixelBoard.setAttribute('id', 'pixel-board');
