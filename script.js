@@ -44,6 +44,36 @@ const createClearBtn = () => {
 };
 createClearBtn();
 
+const generateRandomNumber = () => Math.round(Math.random() * 255);
+
+const createRandomRGB = () => {
+  const red = generateRandomNumber();
+  const green = generateRandomNumber();
+  const blue = generateRandomNumber();
+
+  return `rgb(${red}, ${green}, ${blue})`;
+};
+
+const setRandomColor = () => {
+  const colorArr = document.getElementsByClassName('color');
+
+  for (let index = 0; index < colorArr.length; index += 1) {
+    const color = colorArr[index];
+
+    color.style.backgroundColor = createRandomRGB();
+  }
+};
+
+const createRandomColorBtn = () => {
+  const randomColorBtn = document.createElement('button');
+  randomColorBtn.setAttribute('id', 'button-random-color');
+  randomColorBtn.innerText = 'Cores aleatórias';
+  mainElement.appendChild(randomColorBtn);
+
+  randomColorBtn.addEventListener('click', setRandomColor);
+};
+createRandomColorBtn();
+
 const createPixelBoard = (size) => {
   const pixelBoard = document.createElement('section');
   pixelBoard.setAttribute('id', 'pixel-board');
@@ -95,13 +125,3 @@ const paintPixels = () => {
   }
 };
 paintPixels();
-
-const generateRandomNumber = () => Math.round(Math.random() * 255);
-
-const createRandomRGB = () => {
-  const red = generateRandomNumber();
-  const green = generateRandomNumber();
-  const blue = generateRandomNumber();
-
-  return `rgb(${red}, ${green}, ${blue})`;
-};
