@@ -1,0 +1,26 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.color {
+  display: inline-block;
+  margin: 2px;
+  width: 40px;
+  height: 40px;
+  border: 1px solid black;
+}
+
+.pixel-column {
+  display: block;
+  width: 210px;
+  height: 40px;
+}
+
+.pixel {
+  background-color: rgb(255, 255, 255);
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border: 1px solid black;
+}
