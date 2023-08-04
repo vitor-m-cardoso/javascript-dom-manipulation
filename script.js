@@ -6,6 +6,9 @@ title.innerText = 'Paleta de Cores';
 title.setAttribute('id', 'title');
 mainElement.appendChild(title);
 
+// constante criada para string utilizada repetidas vezes.
+const pixelBoardStr = 'pixel-board';
+
 const createColorPalette = () => {
   const colorPalette = document.createElement('section');
   colorPalette.setAttribute('id', 'color-palette');
@@ -77,7 +80,7 @@ createRandomColorBtn();
 
 const createPixelBoard = (size) => {
   const pixelBoard = document.createElement('section');
-  pixelBoard.setAttribute('id', 'pixel-board');
+  pixelBoard.setAttribute('id', pixelBoardStr);
 
   for (let column = 0; column < size; column += 1) {
     const pixelColumn = document.createElement('div');
@@ -128,7 +131,7 @@ const paintPixels = () => {
 paintPixels();
 
 const savePixelBoard = () => {
-  const pixelBoard = document.getElementById('pixel-board');
+  const pixelBoard = document.getElementById(pixelBoardStr);
   pixelBoard.addEventListener('click', () => {
     localStorage.setItem('pixelBoard', JSON.stringify(pixelBoard.innerHTML));
   });
@@ -136,7 +139,7 @@ const savePixelBoard = () => {
 savePixelBoard();
 
 const getSavedPixelBoard = () => {
-  const pixelBoard = document.getElementById('pixel-board');
+  const pixelBoard = document.getElementById(pixelBoardStr);
   if (savedPixelBoard) {
     pixelBoard.innerHTML = JSON.parse(savedPixelBoard);
   }
