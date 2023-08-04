@@ -30,23 +30,8 @@ const createColorPalette = () => {
 };
 createColorPalette();
 
-const clearPixelBoard = () => {
-  const pixels = document.getElementsByClassName('pixel');
-
-  for (let index = 0; index < pixels.length; index += 1) {
-    const pixel = pixels[index];
-    pixel.style.backgroundColor = 'rgb(255, 255, 255)';
-  }
-};
-
-const createClearBtn = () => {
-  const clearBtn = document.createElement('button');
-  clearBtn.setAttribute('id', 'clear-board');
-  clearBtn.innerText = 'Limpar';
-  mainElement.appendChild(clearBtn);
-  clearBtn.addEventListener('click', clearPixelBoard);
-};
-createClearBtn();
+const btnsSection = document.createElement('section');
+mainElement.appendChild(btnsSection);
 
 const generateRandomNumber = () => Math.round(Math.random() * 255);
 
@@ -68,15 +53,24 @@ const setRandomColor = () => {
   }
 };
 
-const createRandomColorBtn = () => {
-  const randomColorBtn = document.createElement('button');
-  randomColorBtn.setAttribute('id', 'button-random-color');
-  randomColorBtn.innerText = 'Cores aleatórias';
-  mainElement.appendChild(randomColorBtn);
+const createElementsToSetBoardSize = () => {
+  const boardSizeSection = document.createElement('section');
 
-  randomColorBtn.addEventListener('click', setRandomColor);
+  const input = document.createElement('input');
+  input.setAttribute('id', 'board-size');
+  input.setAttribute('type', 'number');
+  input.min = 1;
+  input.max = 50;
+
+  const genBoard = document.createElement('button');
+  genBoard.setAttribute('id', 'generate-board');
+  genBoard.innerText = 'VQV';
+
+  boardSizeSection.appendChild(input);
+  boardSizeSection.appendChild(genBoard);
+  mainElement.appendChild(boardSizeSection);
 };
-createRandomColorBtn();
+createElementsToSetBoardSize();
 
 const createPixelBoard = (size) => {
   const pixelBoard = document.createElement('section');
@@ -97,6 +91,40 @@ const createPixelBoard = (size) => {
 };
 createPixelBoard(5);
 
+const savePixelBoard = () => {
+  const pixelBoard = document.getElementById(pixelBoardStr);
+  localStorage.setItem('pixelBoard', JSON.stringify(pixelBoard.innerHTML));
+};
+
+const clearPixelBoard = () => {
+  const pixels = document.getElementsByClassName('pixel');
+
+  for (let index = 0; index < pixels.length; index += 1) {
+    const pixel = pixels[index];
+    pixel.style.backgroundColor = 'rgb(255, 255, 255)';
+  }
+  savePixelBoard();
+};
+
+const createClearBtn = () => {
+  const clearBtn = document.createElement('button');
+  clearBtn.setAttribute('id', 'clear-board');
+  clearBtn.innerText = 'Limpar';
+  btnsSection.appendChild(clearBtn);
+  clearBtn.addEventListener('click', clearPixelBoard);
+};
+createClearBtn();
+
+const createRandomColorBtn = () => {
+  const randomColorBtn = document.createElement('button');
+  randomColorBtn.setAttribute('id', 'button-random-color');
+  randomColorBtn.innerText = 'Cores aleatórias';
+  btnsSection.appendChild(randomColorBtn);
+
+  randomColorBtn.addEventListener('click', setRandomColor);
+};
+createRandomColorBtn();
+
 const setSelectedColor = () => {
   const colorArr = document.getElementsByClassName('color');
 
@@ -113,6 +141,14 @@ const setSelectedColor = () => {
 };
 setSelectedColor();
 
+const getSavedPixelBoard = () => {
+  const pixelBoard = document.getElementById(pixelBoardStr);
+  if (savedPixelBoard) {
+    pixelBoard.innerHTML = JSON.parse(savedPixelBoard);
+  }
+};
+getSavedPixelBoard();
+
 const paintPixels = () => {
   const pixels = document.getElementsByClassName('pixel');
 
@@ -125,27 +161,30 @@ const paintPixels = () => {
       const clickedPixel = event.target;
 
       clickedPixel.style.backgroundColor = selectedColorBg;
+      savePixelBoard();
     });
   }
 };
 paintPixels();
 
-const savePixelBoard = () => {
-  const pixelBoard = document.getElementById(pixelBoardStr);
-  pixelBoard.addEventListener('click', () => {
-    localStorage.setItem('pixelBoard', JSON.stringify(pixelBoard.innerHTML));
-  });
-};
-savePixelBoard();
-
-const getSavedPixelBoard = () => {
-  const pixelBoard = document.getElementById(pixelBoardStr);
-  if (savedPixelBoard) {
-    pixelBoard.innerHTML = JSON.parse(savedPixelBoard);
-  }
-};
-getSavedPixelBoard();
-
-window.onload = () => {
+const setPixelBoardSize = () => {
   localStorage.removeItem('pixelBoard');
+  const input = document.getElementById('board-size');
+  const getPixelBoard = document.getElementById('pixel-board');
+
+  if (input.value < 5) {
+    alert('Board inválido!');
+    input.value = 5;
+  } else if (input.value > 50) {
+    alert('Board inválido!');
+    input.value = 50;
+  }
+
+  getPixelBoard.remove();
+  createPixelBoard(input.value);
+  paintPixels();
+  savePixelBoard();
+  localStorage.setItem('boardSize', input.value);
 };
+const genBoardBtn = document.getElementById('generate-board');
+genBoardBtn.addEventListener('click', setPixelBoardSize);
