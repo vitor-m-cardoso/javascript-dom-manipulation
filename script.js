@@ -95,3 +95,13 @@ const paintPixels = () => {
   }
 };
 paintPixels();
+
+const generateRandomNumber = () => Math.round(Math.random() * 255);
+
+const createRandomRGB = () => {
+  const red = generateRandomNumber();
+  const green = generateRandomNumber();
+  const blue = generateRandomNumber();
+
+  return `rgb(${red}, ${green}, ${blue})`;
+};
