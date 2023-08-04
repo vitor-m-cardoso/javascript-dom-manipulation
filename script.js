@@ -1,4 +1,5 @@
 const mainElement = document.getElementById('root');
+const savedPixelBoard = localStorage.getItem('pixelBoard');
 
 const title = document.createElement('h1');
 title.innerText = 'Paleta de Cores';
@@ -125,3 +126,23 @@ const paintPixels = () => {
   }
 };
 paintPixels();
+
+const savePixelBoard = () => {
+  const pixelBoard = document.getElementById('pixel-board');
+  pixelBoard.addEventListener('click', () => {
+    localStorage.setItem('pixelBoard', JSON.stringify(pixelBoard.innerHTML));
+  });
+};
+savePixelBoard();
+
+const getSavedPixelBoard = () => {
+  const pixelBoard = document.getElementById('pixel-board');
+  if (savedPixelBoard) {
+    pixelBoard.innerHTML = JSON.parse(savedPixelBoard);
+  }
+};
+getSavedPixelBoard();
+
+window.onload = () => {
+  localStorage.removeItem('pixelBoard');
+};
